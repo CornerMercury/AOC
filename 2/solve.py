@@ -1,6 +1,6 @@
 from aocd import get_data, submit
 
-DAY = 2
+DAY = 1
 YEAR = 2023
 data = get_data(day=DAY, year=YEAR)
 
@@ -22,4 +22,5 @@ def main():
         submit(p2, part="b", day=DAY, year=YEAR)
 
 
-main()
+if __name__ == "__main__":
+    main()
