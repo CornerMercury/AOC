@@ -1,4 +1,5 @@
 from aocd import get_data, submit
+from collections import deque
 
 YEAR = 2023
 
@@ -7,8 +8,17 @@ def part1(data):
     l = data.split("\n")
     res = 0
     for s in l:
-        digits = [int(c) for c in s if c.isnumeric()]
-        res += digits[0] * 10 + digits[-1]
+        for i in range(0, len(s)):
+            if s[i].isdigit():
+                res += int(s[i]) * 10
+            else:
+                break
+
+        for i in range(len(s) - 1, -1, -1):
+            if s[i].isdigit():
+                res += int(s[i])
+            else:
+                break
 
     return res
 
@@ -38,7 +48,8 @@ def main():
     p1 = part1(data)
     if p1:
         submit(p1, part="a", day=day, year=YEAR)
-    p2 = part2(data)
+    for _ in range(20):
+        p2 = part2(data)
     if p2:
         submit(p2, part="b", day=day, year=YEAR)
 
