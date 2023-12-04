@@ -1,6 +1,3 @@
-from aocd import get_data, submit
-from collections import deque
-
 YEAR = 2023
 
 

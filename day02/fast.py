@@ -22,7 +22,7 @@ def part1(data):
                     case "blue":
                         if n > 14:
                             b = 0
-        res += b * int(id.split()[1])
+        res += b * int(id[5:])
     return res
 
 
