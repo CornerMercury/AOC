@@ -22,26 +22,77 @@ def part1(data):
     return min(last)
 
 
+# def part2(data):
+#     l = [s.split(":")[1].split("\n") for s in data.split("\n\n")]
+#     seeds, l = list(map(int, l[0][0].split())), l[1:][::-1]
+#     l = [[list(map(int, line.split())) for line in mapping[1:]] for mapping in l]
+
+#     loc = 0
+#     while True:
+#         loc += 1
+#         last = loc
+#         for mapping in l:
+#             for dest, source, rang in mapping:
+#                 if dest <= last < dest + rang:
+#                     new_last = last - dest + source
+#                     break
+#                 else:
+#                     new_last = last
+#             last = new_last
+#         for i in range(0, len(seeds), 2):
+#             if seeds[i] <= last < seeds[i] + seeds[i + 1]:
+#                 return loc
+
+
 def part2(data):
     l = [s.split(":")[1].split("\n") for s in data.split("\n\n")]
     seeds, l = list(map(int, l[0][0].split())), l[1:][::-1]
     l = [[list(map(int, line.split())) for line in mapping[1:]] for mapping in l]
-
-    loc = 0
-    while True:
-        loc += 1
-        last = loc
+    seed_pairs = [(seeds[i], seeds[i] + seeds[i + 1]) for i in range(0, len(seeds), 2)]
+    min_loc = 999999999999
+    for pair in seed_pairs:
+        stack = [pair]
+        next_stack = []
+        # bfs
         for mapping in l:
-            for dest, source, rang in mapping:
-                if dest <= last < dest + rang:
-                    new_last = last - dest + source
-                    break
+            while stack:
+                node = stack.pop()
+                for dest, source, rang in mapping:
+                    end = dest + rang
+                    # ranges do not overlap 01() or ()01
+                    if node[1] < source or node[0] >= end:
+                        continue
+                    # 0(1)
+                    elif node[0] < source and node[1] < end:
+                        next_stack.append((dest, dest + node[1] - source))
+                        stack.append((node[0], source - 1))
+                        break
+                    # (01)
+                    elif source <= node[0] <= node[1] < end:
+                        next_stack.append(
+                            (dest + node[0] - source, dest + node[1] - source)
+                        )
+                        break
+                    # (0)1
+                    elif node[0] < source and end <= node[1]:
+                        next_stack.append((dest + node[0] - source, end - 1))
+                        stack.append((source + range, node[1]))
+                        break
+                    # 0()1
+                    elif node[0] < source and end <= node[1]:
+                        stack.append((node[0], source - 1))
+                        next_stack.append((dest, end - 1))
+                        stack.append((end, node[1]))
+                        break
                 else:
-                    new_last = last
-            last = new_last
-        for i in range(0, len(seeds), 2):
-            if seeds[i] <= last < seeds[i] + seeds[i + 1]:
-                return loc
+                    next_stack.append(node)
+
+            stack = next_stack
+            next_stack = []
+        min_loc = min(min_loc, min(map(lambda x: x[0], stack)))
+
+    print(min_loc)
+    return None
 
 
 data = """
@@ -82,7 +133,7 @@ humidity-to-location map:
 
 def main():
     day = int(__file__.split("\\")[-2][-2:])
-    data = get_data(day=day, year=YEAR)
+    # data = get_data(day=day, year=YEAR)
     p1 = part1(data)
     if p1:
         submit(p1, part="a", day=day, year=YEAR)
