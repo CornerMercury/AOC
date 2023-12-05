@@ -46,7 +46,7 @@ def part1(data):
 
 def part2(data):
     l = [s.split(":")[1].split("\n") for s in data.split("\n\n")]
-    seeds, l = list(map(int, l[0][0].split())), l[1:][::-1]
+    seeds, l = list(map(int, l[0][0].split())), l[1:]
     l = [[list(map(int, line.split())) for line in mapping[1:]] for mapping in l]
     seed_pairs = [(seeds[i], seeds[i] + seeds[i + 1]) for i in range(0, len(seeds), 2)]
     min_loc = 999999999999
