@@ -8,9 +8,10 @@ def part1(data):
     t, d = map(lambda x: map(int, x.split(":")[1].split()), data.split("\n"))
     res = 1
     for x, m in zip(t, d):
-        sol1 = (x - math.sqrt(x**2 - 4 * m)) / 2
-        sol2 = (x + math.sqrt(x**2 - 4 * m)) / 2
-        wins = math.floor(sol2) - math.ceil(sol1)
+        discrim = math.sqrt(x**2 - 4 * m)
+        sol1 = (x - discrim) / 2
+        sol2 = (x + discrim) // 2
+        wins = int(sol2) - math.ceil(sol1)
         wins += -1 if sol1.is_integer() else 1
         res *= wins
 
@@ -19,11 +20,16 @@ def part1(data):
 
 def part2(data):
     x, m = map(lambda x: int("".join(x.split(":")[1].split())), data.split("\n"))
-    sol1 = (x - math.sqrt(x**2 - 4 * m)) / 2
-    sol2 = (x + math.sqrt(x**2 - 4 * m)) / 2
-    wins = math.floor(sol2) - math.ceil(sol1)
+    discrim = math.sqrt(x**2 - 4 * m)
+    sol1 = (x - discrim) / 2
+    sol2 = (x + discrim) // 2
+    wins = int(sol2) - math.ceil(sol1)
     wins += -1 if sol1.is_integer() else 1
     return wins
+
+
+data = """Time:      7  15   30
+Distance:  9  40  200"""
 
 
 def main():

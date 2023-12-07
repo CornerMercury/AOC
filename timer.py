@@ -29,7 +29,7 @@ def get_filename(days=[i for i in range(1, 26)]):
     return name
 
 
-def time_single(path, n=100):
+def time_single(path, n=10000):
     file = import_module(path)
     data = get_data(day=int(path.split(".")[-2][-2:]), year=YEAR)
 
