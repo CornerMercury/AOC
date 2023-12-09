@@ -5,12 +5,35 @@ YEAR = 2023
 
 def part1(data):
     l = data.split("\n")
-    return None
+    res = 0
+    for line in l:
+        splits = []
+        nums = map(int, line.split())
+        splits.append(list(nums))
+        while not all(num == 0 for num in splits[-1]):
+            splits.append([m - n for n, m in zip(splits[-1], splits[-1][1:])])
+
+        res += sum(map(lambda x: x[-1], splits))
+
+    return res
 
 
 def part2(data):
     l = data.split("\n")
-    return None
+    res = 0
+    for line in l:
+        splits = []
+        nums = map(int, line.split())
+        splits.append(list(nums))
+        while not all(num == 0 for num in splits[-1]):
+            splits.append([m - n for n, m in zip(splits[-1], splits[-1][1:])])
+
+        count = 0
+        for split in splits[::-1]:
+            count = split[0] - count
+        res += count
+        print(res)
+    return res
 
 
 def main():

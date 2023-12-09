@@ -81,9 +81,7 @@ def part2(data):
     sort_l = sorted(l, key=cmp_to_key(compare_hands_joker))
     res = 0
     for i in range(len(sort_l)):
-        print(sort_l[i])
         res += (i + 1) * int(sort_l[i][1])
-    print(res)
     return res
 
 
