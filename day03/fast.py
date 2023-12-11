@@ -3,80 +3,81 @@ from aocd import get_data, submit
 YEAR = 2023
 
 
-def adjacent_digits(grid, n, row_length):
+def adjacent_digits(s, n, row_length):
     poses = []
-    for d in [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]:
-        try:
-            char = grid[y + d[0]][x + d[1]]
-            if char.isdigit():
-                poses.append((y + d[0], x + d[1]))
-        except IndexError:
-            continue
+    for d in [
+        -row_length - 1,
+        -row_length,
+        -row_length + 1,
+        -1,
+        1,
+        row_length - 1,
+        row_length,
+        row_length + 1,
+    ]:
+        new_index = n + d
+        if 0 <= new_index < len(s) and s[new_index].isdigit():
+            poses.append(new_index)
     return poses
 
 
 def part1(data):
     row_len = data.find("\n") + 1
-    num_set = set()
+    pos_set = set()
     res = 0
     for i in range(len(data)):
-        if data[i] not in ".123456789":
-            for yn, xn in adjacent_digits(
-                data,
-                i,
-            ):
+        if data[i] not in ".1234567890\n":
+            for n in adjacent_digits(data, i, row_len):
                 s = ""
-                while 0 <= xn and grid[yn][xn].isdigit():
-                    xn -= 1
-                xn += 1
-                if (yn, xn) in num_set:
+                while 0 <= n and data[n].isdigit():
+                    n -= 1
+                n += 1
+                if n in pos_set:
                     continue
 
-                num_set.add((yn, xn))
+                pos_set.add(n)
 
-                while grid[yn][xn].isdigit():
-                    s += grid[yn][xn]
-                    xn += 1
+                while data[n].isdigit():
+                    s += data[n]
+                    n += 1
 
                 res += int(s)
 
-    print(res)
+    return res
 
 
 def part2(data):
-    grid = [[c for c in line] for line in data.split("\n")]
-    s = ""
-    gears = set()
-    gear_poses = {}
-    for y in range(len(grid)):
-        if s and gears:
-            for gear in gears:
-                if gear in gear_poses:
-                    gear_poses[gear].append(int(s))
-                else:
-                    gear_poses[gear] = [int(s)]
-
-        s = ""
-        gears = set()
-        for x in range(len(grid[y])):
-            c = grid[y][x]
-            if c.isdigit():
-                s += c
-                _, gear_pos = is_adjacent_symbol(grid, y, x)
-                if gear_pos:
-                    gears.add(gear_pos)
-            else:
-                if s and gears:
-                    for gear in gears:
-                        if gear in gear_poses:
-                            gear_poses[gear].append(int(s))
-                        else:
-                            gear_poses[gear] = [int(s)]
-
+    row_len = data.find("\n") + 1
+    res = 0
+    for i in range(len(data)):
+        if data[i] == "*":
+            adj = adjacent_digits(data, i, row_len)
+            if len(adj) < 2:
+                continue
+            poses = []
+            nums = []
+            for n in adj:
                 s = ""
-                gears = set()
+                while 0 <= n and data[n].isdigit():
+                    n -= 1
+                n += 1
+                if n in poses:
+                    continue
 
-    return sum(v[0] * v[1] for _, v in gear_poses.items() if len(v) == 2)
+                poses.append(n)
+
+                while data[n].isdigit():
+                    s += data[n]
+                    n += 1
+
+                nums.append(int(s))
+                if len(nums) > 2:
+                    break
+
+            if len(nums) == 2:
+                res += nums[0] * nums[1]
+
+    return res
 
 
 def main():

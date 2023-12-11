@@ -35,8 +35,6 @@ def part1(data):
                 s = ""
                 symbol = False
 
-    return res
-
 
 def part2(data):
     grid = [[c for c in line] for line in data.split("\n")]
