@@ -64,7 +64,6 @@ def part2(data):
     res = 0
     l = data.split("\n")
     for line in l:
-        print(line)
         line, int_lst = line.split()
         int_lst = list(map(int, int_lst.split(",")))
         res += rec("?".join([line] * 5), 0, tuple(), tuple(int_lst * 5))
@@ -76,7 +75,6 @@ def main():
     day = int(__file__.split("\\")[-2][-2:])
     data = get_data(day=day, year=YEAR)
     p1 = part1(data)
-    print(p1)
     if p1:
         submit(p1, part="a", day=day, year=YEAR)
     p2 = part2(data)
