@@ -4,13 +4,56 @@ YEAR = 2023
 
 
 def part1(data):
-    l = data.split("\n")
-    return None
+    l = data.strip("\n").split(",")
+    res = 0
+    for part in l:
+        cur = 0
+        for c in part:
+            cur += ord(c)
+            cur *= 17
+            cur %= 256
+        res += cur
+
+    return res
+
+
+def hash(s):
+    cur = 0
+    for c in s:
+        cur += ord(c)
+        cur *= 17
+        cur %= 256
+    return cur
 
 
 def part2(data):
-    l = data.split("\n")
-    return None
+    l = data.strip("\n").split(",")
+    boxes = {i: [] for i in range(256)}
+    for part in l:
+        if "=" in part:
+            out = part.split("=")
+            hash_num = hash(out[0])
+            for i, lens in enumerate(boxes[hash_num]):
+                if lens[0] == out[0]:
+                    boxes[hash_num][i] = out
+                    break
+            else:
+                boxes[hash_num].append(out)
+        else:
+            name = part[:-1]
+            hash_num = hash(name)
+            for i, lens in enumerate(boxes[hash_num]):
+                if lens[0] == name:
+                    boxes[hash_num].pop(i)
+                    break
+    res = 0
+    for key, lenses in boxes.items():
+        for i, lens in enumerate(lenses):
+            res += (key + 1) * (i + 1) * int(lens[1])
+    return res
+
+
+data = "rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7"
 
 
 def main():
