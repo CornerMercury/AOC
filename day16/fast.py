@@ -97,8 +97,6 @@ def get_elec(grid, start_pos, start_dir):
                     stack.append(((pos[0] + dir[0], pos[1] + dir[1]), dir))
     global max_count
     max_count = max(max_count, count)
-    if count == max_count:
-        print(count)
     return len(tile_set)
 
 
