@@ -87,12 +87,10 @@ def part2(data):
         elif inp[0] == "&":
             objects[name] = (Conjunction(output_totals[name]), outs)
 
-    counts = [0, 0]
     last_conjoins = {}
     i = 0
     while True:
         i += 1
-        counts[0] += len(starting_q) + 1
         q = deque(starting_q)
         while q:
             fro, to, signal = q.popleft()
@@ -100,7 +98,6 @@ def part2(data):
             signal = obj.recieve(signal, fro)
             if signal == None:
                 continue
-            counts[signal] += len(outs)
             if outs == [last]:
                 if signal and to not in last_conjoins:
                     last_conjoins[to] = i
