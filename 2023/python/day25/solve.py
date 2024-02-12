@@ -1,0 +1,40 @@
+from aocd import get_data, submit
+
+YEAR = 2023
+
+
+def part1(data):
+    l = data.split("\n")
+    nodes = {}
+    for line in l:
+        key, connections = line.split(": ")
+        connections = connections.split()
+        if key not in nodes:
+            nodes[key] = []
+        for node in connections:
+            if node not in nodes:
+                nodes[node] = []
+            nodes[key].append(node)
+            nodes[node].append(key)
+
+    for node in
+
+
+def part2(data):
+    l = data.split("\n")
+    return None
+
+
+def main():
+    day = int(__file__.split("\\")[-2][-2:])
+    data = get_data(day=day, year=YEAR)
+    p1 = part1(data)
+    if p1:
+        submit(p1, part="a", day=day, year=YEAR)
+    p2 = part2(data)
+    if p2:
+        submit(p2, part="b", day=day, year=YEAR)
+
+
+if __name__ == "__main__":
+    main()
