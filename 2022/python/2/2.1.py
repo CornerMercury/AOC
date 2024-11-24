@@ -9,7 +9,7 @@ with open(path, 'r') as f:
 con = {
   'A': 'r',
   'B': 'p',
-  'C': 's',
+  'c': 's',
   'X': 'r',
   'Y': 'p',
   'Z': 's'
