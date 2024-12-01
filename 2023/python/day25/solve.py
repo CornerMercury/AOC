@@ -17,7 +17,6 @@ def part1(data):
             nodes[key].append(node)
             nodes[node].append(key)
 
-    for node in
 
 
 def part2(data):
