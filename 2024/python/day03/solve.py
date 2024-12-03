@@ -3,13 +3,50 @@ from aocd import get_data, submit
 YEAR = 2024
 
 def part1(data):
-    l = data.split("\n")
-    return None
+    t=0
+    l=data
+    for i in range(len(l)):
+        if l[i:i+4] == 'mul(':
+            p=j=i+4
+            while l[j].isnumeric():
+                j+=1
+            if l[j]!=',':
+                continue
+            a=int(l[p:j])
+            p=j=j+1
+            while l[j].isnumeric():
+                j+=1
+            if l[j]!=')':
+                continue
+            t+=a*int(l[p:j])
+    return t
 
 
 def part2(data):
-    l = data.split("\n")
-    return None
+    t=0
+    l=data
+    on=True
+    for i in range(len(l)):
+        if on:
+            if l[i:i+4] == 'mul(':
+                p=j=i+4
+                while l[j].isnumeric():
+                    j+=1
+                if l[j]!=',':
+                    continue
+                a=int(l[p:j])
+                p=j=j+1
+                while l[j].isnumeric():
+                    j+=1
+                if l[j]!=')':
+                    continue
+                t+=a*int(l[p:j])
+            elif l[i:i+7] == 'don\'t()':
+                on=False
+        else:
+            if l[i:i+4] == 'do()':
+                on=True
+    return t
 
 
 def main():
