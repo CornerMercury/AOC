@@ -36,16 +36,6 @@ def part1(data):
     return t
 
 def part2(data):
-#     data="""MMMSXXMASM
-# MSAMXMSMSA
-# AMXSXMAAMM
-# MSAMASMSMX
-# XMASAMXAMM
-# XXAMMXXAMA
-# SMSMSASXSS
-# SAXAMASAAA
-# MAMMMXMMMM
-# MXMXAXMASX"""
     l = data.split("\n")
     t=0
     for y in range(1,len(l)-1):
@@ -56,7 +46,6 @@ def part2(data):
                 d=l[y+1][x+1]
                 if ((a==b and c==d) or (a==c and b==d)) and sorted(a+d)==['M','S']:
                     t+=1
-    print(t)
     return t
 
 
