@@ -30,7 +30,7 @@ def get_filename(days=[i for i in range(1, 26)]):
     return name
 
 
-def time_single(path, n=1):
+def time_single(path, n=100):
     file = import_module(path)
     day = int(path.split(".")[-2][-2:])
     if day in data_lookup:

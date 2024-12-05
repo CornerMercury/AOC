@@ -5,48 +5,46 @@ YEAR = 2024
 
 def part1(data):
     l = data.split("\n")
-    o = {}
-    i=0
-    while l[i]!='':
-        a,b = l[i].split("|")
-        if a not in o:
-            o[a]=set()
-        o[a].add(b)
-        i+=1
+    rules = {}
+    i = 0
+    while l[i] != '':
+        a, b = int(l[i][:2]), int(l[i][3:])
+        if a not in rules:
+            rules[a] = set()
+        rules[a].add(b)
+        i += 1
     t=0
     for s in l[i+1:]:
-        ns = s.split(',')
-        c=True
-        for i in range(len(ns)):
+        pages = s.split(',')
+        c = False
+        for i in range(len(pages)):
             for j in range(0, i):
-                if (ns[i] in o) and (ns[j] in o[ns[i]]):
-                    c = False
+                if (pages[i] in rules) and (pages[j] in rules[pages[i]]):
+                    c = True
                     break
-            if not c:
+            if c:
                 break
         else:
-            t+=int(ns[len(ns)//2])
+            t += int(pages[len(pages)//2])
     return t
 
 
 def part2(data):
     l = data.split("\n")
     rules = {}
-    i=0
-    while l[i]!='':
-        a,b = l[i].split("|")
-        a,b = int(a), int(b)
+    i = 0
+    while l[i] != '':
+        a, b = int(l[i][:2]), int(l[i][3:])
         if a not in rules:
-            rules[a]=set()
+            rules[a] = set()
         rules[a].add(b)
-        i+=1
+        i += 1
     t=0
     for s in l[i+1:]:
         pages = list(map(int, s.split(',')))
-        i=0
         new_pages = sorted(pages,key=cmp_to_key(lambda a,b: 1 if a in rules[b] else -1))
         if pages != new_pages:
-            t+=new_pages[len(pages)//2]
+            t += new_pages[len(new_pages)//2]
     return t
 
 
