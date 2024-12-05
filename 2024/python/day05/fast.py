@@ -1,4 +1,5 @@
 from aocd import get_data, submit
+from functools import cmp_to_key
 
 YEAR = 2024
 
@@ -30,30 +31,22 @@ def part1(data):
 
 def part2(data):
     l = data.split("\n")
-    o = {}
+    rules = {}
     i=0
     while l[i]!='':
         a,b = l[i].split("|")
-        if a not in o:
-            o[a]=set()
-        o[a].add(b)
+        a,b = int(a), int(b)
+        if a not in rules:
+            rules[a]=set()
+        rules[a].add(b)
         i+=1
     t=0
     for s in l[i+1:]:
-        ns = s.split(',')
-        c=True
+        pages = list(map(int, s.split(',')))
         i=0
-        while i < len(ns):
-            j=0
-            while j < i:
-                if (ns[i] in o) and (ns[j] in o[ns[i]]):
-                    c = False
-                    ns.insert(i, ns.pop(j))
-                    i-=1
-                j+=1
-            i+=1
-        if not c:
-            t+=int(ns[len(ns)//2])
+        new_pages = sorted(pages,key=cmp_to_key(lambda a,b: 1 if a in rules[b] else -1))
+        if pages != new_pages:
+            t+=new_pages[len(pages)//2]
     return t
 
 
