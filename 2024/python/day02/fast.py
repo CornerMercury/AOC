@@ -26,7 +26,6 @@ def part2(data):
                 l=(max(abs(b-a) for a,b in zip(i, i[1:]))<=3)and(min(abs(b-a) for a,b in zip(i, i[1:]))>=1) and (([abs(b-a) for a,b in zip(i, i[1:])] == [b-a for a,b in zip(i, i[1:])])  or([abs(b-a) for a,b in zip(i, i[1:])] == [a-b for a,b in zip(i, i[1:])]))
                 if l:
                     t+=1
-                    b=True
                     break
                 
     return t

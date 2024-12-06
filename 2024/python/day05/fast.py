@@ -1,7 +1,7 @@
 from aocd import get_data, submit
 from functools import cmp_to_key
 
-YEAR = 2024
+YEAR=2024
 
 def part1(data):
     l = data.split("\n")
