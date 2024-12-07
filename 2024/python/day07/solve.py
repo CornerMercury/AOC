@@ -3,13 +3,52 @@ from aocd import get_data, submit
 YEAR=2024
 
 def part1(data):
+    def recurse(operands, target, current=0):
+        if not operands:
+            if target == current:
+                return True
+            return False
+        a = False
+        b = operands.pop(0)
+        a |= recurse(operands, target, current + b)
+        if a:
+            return a
+        a |= recurse(operands, target, current * b)
+        operands.insert(0, b)
+        return a
     l = data.split("\n")
-    return None
+    t=0
+    for s in l:
+        target, operands = s.split(":")
+        operands = list(map(int, operands.split()))
+        t += recurse(operands, int(target)) and int(target)
+    return t
 
 
 def part2(data):
+    def recurse(operands, target, current=0):
+        if not operands:
+            if target == current:
+                return True
+            return False
+        a = False
+        b = operands.pop(0)
+        a |= recurse(operands, target, current + b)
+        if a:
+            return a
+        a |= recurse(operands, target, current * b)
+        if a:
+            return a
+        a |= recurse(operands, target, int(str(current) + str(b)))
+        operands.insert(0, b)
+        return a
     l = data.split("\n")
-    return None
+    t=0
+    for s in l:
+        target, operands = s.split(":")
+        operands = list(map(int, operands.split()))
+        t += recurse(operands, int(target)) and int(target)
+    return t
 
 
 def main():
