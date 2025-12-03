@@ -4,7 +4,7 @@ from importlib import import_module
 from aocd import get_data, exceptions
 import argparse
 
-YEAR = 2024
+YEAR = 2025
 
 
 def time_single(path, n):

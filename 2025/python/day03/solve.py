@@ -5,12 +5,34 @@ YEAR = 2025
 
 def part1(data):
     l = data.split("\n")
-    return None
+    t=0
+    for s in l:
+        L = max(c for c in s[:-1])
+        i = s.index(L)
+        R = max(c for c in s[i+1:])
+        t += int(L+R)
+    return t
 
 
 def part2(data):
+    def largest(s, j):
+        if j == 0:
+            S = s
+        else:
+            S = s[:-j]
+        L = max(c for c in S)
+        i = s.index(L)
+        return s[i+1:], L
+    
     l = data.split("\n")
-    return None
+    t=0
+    for s in l:
+        T=""
+        for i in range(11,-1,-1):
+            s, d = largest(s,i)
+            T+=d
+        t+=int(T)
+    return t
 
 
 def main():

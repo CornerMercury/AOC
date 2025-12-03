@@ -1,16 +1,32 @@
 from aocd import get_data, submit
+import re
 
 YEAR = 2025
 
 
 def part1(data):
-    l = data.split("\n")
-    return None
+    l = data.strip("\n")
+    t = 0
+    for r in l.split(","):
+        left, right = map(int, r.split("-"))
+        for n in range(left, right + 1):
+            s_n = str(n)
+            if s_n[: len(s_n) // 2] == s_n[len(s_n) // 2 :]:
+                t += n
+
+    return t
 
 
 def part2(data):
-    l = data.split("\n")
-    return None
+    l = data.strip("\n")
+    t = 0
+    for r in l.split(","):
+        left, right = map(int, r.split("-"))
+        for n in range(left, right + 1):
+            s_n = str(n)
+            if re.search(r"^(.+)\1+$", s_n):
+                t += n
+    return t
 
 
 def main():
