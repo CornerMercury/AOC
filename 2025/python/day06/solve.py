@@ -4,13 +4,36 @@ YEAR = 2025
 
 
 def part1(data):
-    l = data.split("\n")
-    return None
+    l = [r.split() for r in data.split("\n")]#
+    t = 0
+    for c in zip(*l[::-1]):
+        t += eval(c[0].join(c[1:]))
+    return t
 
 
 def part2(data):
     l = data.split("\n")
-    return None
+    o = []
+    op = l[len(l)-1][0]
+    temp = []
+    for col in range(len(l[0])):
+        n = "".join(l[row][col] for row in range(len(l)-1) if l[row][col] != " ")
+        if n == "":
+            temp += [op]
+            o.append(temp)
+            op = l[len(l)-1][col + 1]
+            temp = []
+            continue
+        temp.append(n)
+            
+
+    temp += [op]
+    o.append(temp)
+
+    t = 0
+    for c in o:
+        t += eval(c[-1].join(c[:-1]))
+    return t
 
 
 def main():

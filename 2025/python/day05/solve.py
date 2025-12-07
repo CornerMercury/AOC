@@ -24,34 +24,34 @@ def part1(data):
 
 def part2(data):
     l = data.split("\n")
-    ranges = set()
+    ranges = []
     for i in range(len(l)):
         if l[i] == "":
             break
         L, R = l[i].split("-")
-        ranges.add((int(L), int(R)))
+        ranges.append((int(L), int(R)))
 
     t = 0
     while ranges:
-        new_ranges = set()
-        r = next(iter(ranges))
+        new_ranges = []
+        r = ranges[0]
         left, right = r
         t += right - left + 1
         for r in ranges:
             new_left, new_right = r
             if left <= new_left <= right and right <= new_right:
                 if right + 1 <= new_right:
-                    new_ranges.add((right + 1, new_right))
+                    new_ranges.append((right + 1, new_right))
             elif new_left <= left and left <= new_right <= right:
                 if new_left <= left - 1:
-                    new_ranges.add((new_left, left - 1))
+                    new_ranges.append((new_left, left - 1))
             elif new_left < left and right < new_right:
-                new_ranges.add((new_left, left - 1))
-                new_ranges.add((right + 1, new_right))
+                new_ranges.append((new_left, left - 1))
+                new_ranges.append((right + 1, new_right))
             elif left <= new_left <= right and left <= new_right <= right:
                 pass
             else:
-                new_ranges.add(r)
+                new_ranges.append(r)
 
         ranges = new_ranges
 
