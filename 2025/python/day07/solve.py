@@ -7,11 +7,11 @@ YEAR = 2025
 def part1(data):
     l = data.split("\n")
     s = set()
-    s.add((0,l[0].index("S")))
+    s.add((0, l[0].index("S")))
     t = 0
     while s:
         new_s = set()
-        for y,x in s:
+        for y, x in s:
             if y + 1 >= len(l):
                 continue
             if l[y + 1][x] == "^":
@@ -28,26 +28,14 @@ def part1(data):
 
 
 def part2(data):
-    l = data.split("\n")
-    s = Counter()
-    s[(0,l[0].index("S"))] += 1
-    t = 0
-    while True:
-        new_s = Counter()
-        for p,c in s.items():
-            y,x = p
-            if y + 1 >= len(l):
-                continue
-            if l[y + 1][x] == "^":
-                if x - 1 >= 0:
-                    new_s[(y + 1, x - 1)] += c
-                if x + 1 < len(l[0]):
-                    new_s[(y + 1, x + 1)] += c
-            else:
-                new_s[(y + 1, x)] += c
-        s = new_s
-        if y + 1 == len(l[0]) - 1:
-            return sum(s.values())
+    l=data.split()
+    s={data.find('S'):1}
+    for r in l[1:]:
+        n={}
+        for p in s:
+            for d in range(-(r[p]>'A'),2,2):k=p+d;n[k]=n.get(k,0)+s[p]
+        s=n
+    print(sum(s.values()))
 
 
 def main():
