@@ -62,7 +62,9 @@ def part2(data):
         
         visited = set()
         subgraphs = []
-        for node in edges.keys():
+        for node in range(len(nodes)):
+            if node not in edges:
+                break
             if node not in visited:
                 component = []
                 queue = deque([node])
@@ -77,11 +79,11 @@ def part2(data):
                             queue.append(neighbor)
                 
                 subgraphs.append(component)
+        else:
+            if len(subgraphs) == 1:
+                return nodes[i][0] * nodes[j][0]
 
-        if len(subgraphs) == 1:
-            break
-
-    return nodes[i][0] * nodes[j][0]
+    return None
 
 
 def main():
