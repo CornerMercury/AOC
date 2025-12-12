@@ -11,13 +11,13 @@ def part1(data):
     for line in l:
         goal, *ms = line.split()
         buttons = ms[:-1]
-        bin_goal = goal[1:-1][::-1].replace("#","1").replace(".","0")
-        goal = int(bin_goal,2)
+        bin_goal = goal[1:-1][::-1].replace("#", "1").replace(".", "0")
+        goal = int(bin_goal, 2)
         bin_buttons = []
         for button in buttons:
             t = 0
             for b in button[1:-1].split(","):
-                t += 2**int(b)
+                t += 2 ** int(b)
             bin_buttons.append(t)
         # BFS
         q = deque()
@@ -30,12 +30,12 @@ def part1(data):
                 total += weights[v]
                 break
             for b in bin_buttons:
-                n = v^b
+                n = v ^ b
                 if n not in weights:
-                    weights[n] = weights[v] + 1 
+                    weights[n] = weights[v] + 1
                     q.append(n)
         else:
-            print(f"Solution not found for: {l}")        
+            print(f"Solution not found for: {l}")
             return
 
     return total
@@ -47,14 +47,19 @@ def part2(data):
     for line in l:
         _, *buttons, goal = line.split()
         goal = tuple(map(int, goal[1:-1].split(",")))
-        bin_buttons = [tuple(map(int, b[1:-1].split(",")))for b in buttons]
+        bin_buttons = [tuple(map(int, b[1:-1].split(","))) for b in buttons]
 
         prob = pulp.LpProblem("Button", pulp.LpMinimize)
-        vars = pulp.LpVariable.dicts("Buttons", range(len(buttons)), cat='Integer', lowBound=0)
+        vars = pulp.LpVariable.dicts(
+            "Buttons", range(len(buttons)), cat="Integer", lowBound=0
+        )
         prob += pulp.lpSum(vars[i] for i in range(len(vars)))
         for i in range(len(goal)):
-            prob += pulp.lpSum(vars[j] for j in range(len(vars)) if i in bin_buttons[j]) == goal[i]
-        prob.solve(pulp.GUROBI_CMD(msg=False))
+            prob += (
+                pulp.lpSum(vars[j] for j in range(len(vars)) if i in bin_buttons[j])
+                == goal[i]
+            )
+        prob.solve(pulp.GUROBI_CMD(msg=True))
         total += sum(pulp.value(vars[i]) for i in range(len(vars)))
 
     return total
